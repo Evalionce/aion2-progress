@@ -15,6 +15,7 @@ style = re.search(r'<style>(.*?)</style>', html, re.S).group(1)
 script = re.search(r'<script>(.*?)</script>', html, re.S).group(1)
 data = json.loads(re.search(r'const DATA=(.*?);\n', script).group(1))
 names = dict(line.split('=', 1) for line in (root / 'src/pet-names-ru.txt').read_text(encoding='utf-8').splitlines() if '=' in line)
+monster_names = dict(line.split('=', 1) for line in (root / 'src/monster-names-ru.txt').read_text(encoding='utf-8').splitlines() if '=' in line)
 def slug(name):
     return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
 missing = []
@@ -27,7 +28,7 @@ for pet in data['pets']:
         missing.append(pet['name'])
 for monster in data['monsters']:
     monster['nameEn'] = monster['name']
-    monster['nameRu'] = names.get(slug(monster['name']), monster['name'])
+    monster['nameRu'] = monster_names.get(slug(monster['name']), names.get(slug(monster['name']), monster['name']))
 for zone, name, short in zip(data['meta']['zones'], ['Бертрон', 'Альтгард', 'Нижняя Решанта'], ['Б', 'А', 'Р']):
     zone.update(nameRu=name, shortRu=short)
 public = root / 'public'
