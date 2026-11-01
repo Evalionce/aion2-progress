@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#081016">
+<title>AION 2 — помощник прогресса</title>
+<meta name="description" content="Развитие персонажа AION 2: маршрут новичка, ежедневные и еженедельные задачи, атлас питомцев.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="brandicon">✦</div><div><div class="eyebrow">Глобальная версия · патч 20</div><h1 id="appTitle">AION 2 — атлас питомцев</h1></div></div>
+  <div class="toptools"><span class="localStatus">● Сохранение в браузере</span><div class="languageSwitch" aria-label="Язык"><a href="./" lang="ru" aria-current="page">RU</a><a href="en/" lang="en">EN</a></div><button id="exportBtn">Экспорт прогресса</button><button id="importBtn">Импорт</button><button id="resetBtn">Сбросить ранги питомцев</button></div>
+</header>
+<nav class="appnav" id="appNav"><button data-page="guide" class="on">Развитие персонажа</button><button data-page="progression">Ежедневные / недельные</button><button data-page="pets">Атлас питомцев</button></nav>
+<section class="summary" id="petSummary">
+  <div class="stats">
+    <div class="stat"><b id="completeStat">0 / 207</b>Цель достигнута</div>
+    <div class="stat"><b id="missingStat">207</b>Не собрано</div>
+    <div class="stat priority"><b id="priorityStat">44</b>Приоритет вне Бертрона</div>
+    <div class="stat"><b id="zoneMissingStat">0</b>Не собрано на карте</div>
+    <div class="stat"><b id="pinStat">0</b>Точек на карте</div>
+  </div>
+  <div class="goal"><span>Цель коллекции</span><div class="seg" id="targetSeg"><button data-target="1" class="on">Ранг 1</button><button data-target="2">Ранг 2</button><button data-target="3">Ранг 3</button></div></div>
+</section>
+<main class="main" id="petPage">
+  <aside class="side">
+    <div class="filters">
+      <input id="search" aria-label="Поиск питомца или монстра" type="search" placeholder="Поиск питомца или монстра…" autocomplete="off">
+      <select id="category" aria-label="Тип питомца"><option value="">Все типы</option><option value="Cogni">Разумные</option><option value="Fera">Дикие</option><option value="Natura">Вириды</option><option value="Varian">Метаморфы</option><option value="Special">Особые</option></select>
+      <select class="wide" id="availability" aria-label="Доступность питомца">
+        <option value="all">Вся коллекция</option>
+        <option value="current">Питомцы на текущей карте</option>
+        <option value="priority">Нет в Бертроне — приоритет</option>
+        <option value="nonfield">Нет точек в открытом мире</option>
+        <option value="zone-0">Доступны в Бертроне</option>
+        <option value="zone-1">Доступны в Альтгарде</option>
+        <option value="zone-2">Доступны в Нижней Решанте</option>
+      </select>
+      <div class="filterhint wide"><span id="listCount">Показано: 0</span><span>Б = Бертрон · А = Альтгард · Р = Решанта</span></div>
+    </div>
+    <div class="petlist" id="petList"></div>
+  </aside>
+  <section class="mapcol">
+    <div class="mapbar"><div class="zonetabs" id="zoneTabs"></div><div class="mapstatus" id="mapStatus"></div></div>
+    <div class="mapwrap" id="map">
+      <div class="stage" id="stage"><div id="tiles"></div><div class="gridfallback"></div></div>
+      <canvas class="pinCanvas" id="pinCanvas"></canvas>
+      <div class="maptools"><button id="zoomIn" title="Приблизить">+</button><button id="zoomOut" title="Отдалить">−</button><button id="fit" class="fit" title="Карта целиком">Вся</button></div>
+      <div class="maplegend"><span style="--cat:var(--cogni)"><i class="dot"></i>Разумные</span><span style="--cat:var(--fera)"><i class="dot"></i>Дикие</span><span style="--cat:var(--natura)"><i class="dot"></i>Вириды</span><span style="--cat:var(--varian)"><i class="dot"></i>Метаморфы</span><span style="--cat:var(--special)"><i class="dot"></i>Особые</span><span>золотая грань — нет в Бертроне</span></div>
+      <div class="tooltip" id="tooltip"></div><div class="notice" id="mapNotice">Карта не загрузилась. Точки появления по-прежнему доступны.</div>
+    </div>
+    <div class="detail" id="detail"></div>
+  </section>
+</main>
+
+
+<section class="guidePage" id="guidePage">
+  <div class="guideInner">
+    <div class="guideHero">
+      <div><div class="eyebrow">Маршрут для новичка</div><h2>Развитие персонажа</h2><p>От первого задания до эндгейма. Отмечайте пройденные шаги и расходуйте ресурсы на улучшения, которые открывают следующий полезный порог развития.</p></div>
+      <div class="guideJump" id="guideJump"></div>
+    </div>
+    <div id="guideSections"></div>
+    <div class="guideFooter">Практический маршрут по стратегии оригинала, а не полный справочник. Если прогресс замедлился, проверьте системы текущего этапа. Названия и баланс могут отличаться между регионами и патчами.</div>
+  </div>
+</section>
+
+<section class="progressionPage hidePage" id="progressionPage">
+  <div class="progressionInner">
+    <div class="progressHero">
+      <div><div class="eyebrow">Регулярные активности</div><h2>Чек-лист прогресса</h2><p>Отслеживайте повторяемые задачи. Дневной и недельный прогресс сбрасываются отдельно; ранги питомцев сохраняются и связаны с атласом.</p></div>
+      <div class="sectionJump"><button data-jump="dailySection">Ежедневные</button><button data-jump="weeklySection">Еженедельные</button><button data-jump="eventsSection">События</button><button data-jump="lifetimeSection">Постоянные</button></div>
+    </div>
+    <div id="progressionSections"></div>
+    <div class="progressFooterNote">Прогресс хранится в этом браузере и включается в экспорт JSON. Сброс дневных или недельных задач не затрагивает ранги питомцев. Автоматического сброса нет.</div>
+  </div>
+</section>
+<footer class="footer"><span id="footerCounts"></span><span>Карты и данные: <a href="https://github.com/aion2-interactive-map/aion2-interactive-map" target="_blank" rel="noopener">AION2 Interactive Map</a> (CC BY-NC 4.0). AION 2 © NCSOFT. Неофициальный некоммерческий проект.</span><span>Названия: <a href="https://wikily.gg/ru/aion-2/pets" target="_blank" rel="noopener">Wikily</a></span></footer>
+</div>
+<dialog id="modal"><button class="close" id="modalClose">Закрыть</button><h2 id="modalTitle">Прогресс</h2><div id="modalBody"></div></dialog>
+<input type="file" id="fileInput" accept=".json,application/json" class="hide">
+<script src="data.js"></script>
+<script src="names-ru.js"></script>
+<script src="content.js"></script>
+<script src="progress.js"></script>
+<script src="app.js"></script>
+</body></html>

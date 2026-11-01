@@ -1,0 +1,11 @@
+{
+  "name": "aion2-progression-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bilingual AION 2 progression roadmap, checklist and pet atlas",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "check": "node --check public/app.js && node --check public/en/app.js && node --check public/content.js && node --check public/progress.js"
+  }
+}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#081016">
+<title>AION 2 Progression Companion</title>
+<meta name="description" content="AION 2 new-player progression roadmap, daily and weekly checklist, and pet collection atlas.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="brandicon">✦</div><div><div class="eyebrow">Global · Patch 20</div><h1 id="appTitle">AION 2 Pet Atlas</h1></div></div>
+  <div class="toptools"><span class="localStatus">● Saved in this browser</span><div class="languageSwitch" aria-label="Language"><a href="../" lang="ru">RU</a><a href="./" lang="en" aria-current="page">EN</a></div><button id="exportBtn">Export progress</button><button id="importBtn">Import</button><button id="resetBtn">Reset Pet Ranks</button></div>
+</header>
+<nav class="appnav" id="appNav"><button data-page="guide" class="on">Simplified Progression</button><button data-page="progression">Daily / Weekly</button><button data-page="pets">Pet Atlas</button></nav>
+<section class="summary" id="petSummary">
+  <div class="stats">
+    <div class="stat"><b id="completeStat">0 / 207</b>At target</div>
+    <div class="stat"><b id="missingStat">207</b>Missing</div>
+    <div class="stat priority"><b id="priorityStat">44</b>No-Verteron priority</div>
+    <div class="stat"><b id="zoneMissingStat">0</b>Missing on map</div>
+    <div class="stat"><b id="pinStat">0</b>Pins shown</div>
+  </div>
+  <div class="goal"><span>Collection target</span><div class="seg" id="targetSeg"><button data-target="1" class="on">Rank 1</button><button data-target="2">Rank 2</button><button data-target="3">Rank 3</button></div></div>
+</section>
+<main class="main" id="petPage">
+  <aside class="side">
+    <div class="filters">
+      <input id="search" aria-label="Search pet or source monster" type="search" placeholder="Search pet or source monster…" autocomplete="off">
+      <select id="category" aria-label="Pet type"><option value="">All types</option><option>Cogni</option><option>Fera</option><option>Natura</option><option>Varian</option><option>Special</option></select>
+      <select class="wide" id="availability" aria-label="Pet availability">
+        <option value="all">All collection pets</option>
+        <option value="current">Pets on current map</option>
+        <option value="priority">No Verteron field source (priority)</option>
+        <option value="nonfield">No tracked field spawn</option>
+        <option value="zone-0">Verteron availability</option>
+        <option value="zone-1">Altgard availability</option>
+        <option value="zone-2">Lower Reshanta availability</option>
+      </select>
+      <div class="filterhint wide"><span id="listCount">0 shown</span><span>V = Verteron · A = Altgard · R = Reshanta</span></div>
+    </div>
+    <div class="petlist" id="petList"></div>
+  </aside>
+  <section class="mapcol">
+    <div class="mapbar"><div class="zonetabs" id="zoneTabs"></div><div class="mapstatus" id="mapStatus"></div></div>
+    <div class="mapwrap" id="map">
+      <div class="stage" id="stage"><div id="tiles"></div><div class="gridfallback"></div></div>
+      <canvas class="pinCanvas" id="pinCanvas"></canvas>
+      <div class="maptools"><button id="zoomIn" title="Zoom in">+</button><button id="zoomOut" title="Zoom out">−</button><button id="fit" class="fit" title="Fit map">FIT</button></div>
+      <div class="maplegend"><span style="--cat:var(--cogni)"><i class="dot"></i>Cogni</span><span style="--cat:var(--fera)"><i class="dot"></i>Fera</span><span style="--cat:var(--natura)"><i class="dot"></i>Natura</span><span style="--cat:var(--varian)"><i class="dot"></i>Varian</span><span style="--cat:var(--special)"><i class="dot"></i>Special</span><span>gold edge = field pet with no Verteron source</span></div>
+      <div class="tooltip" id="tooltip"></div><div class="notice" id="mapNotice">Map artwork could not be loaded. Spawn pins are still available.</div>
+    </div>
+    <div class="detail" id="detail"></div>
+  </section>
+</main>
+
+
+<section class="guidePage" id="guidePage">
+  <div class="guideInner">
+    <div class="guideHero">
+      <div><div class="eyebrow">New Player Roadmap</div><h2>Simplified Progression</h2><p>A straight-line path from your first quest to endgame. Check steps off as you go; the goal is to spend resources only when they actually move you into the next useful breakpoint.</p></div>
+      <div class="guideJump" id="guideJump"></div>
+    </div>
+    <div id="guideSections"></div>
+    <div class="guideFooter">This roadmap is intentionally practical rather than exhaustive. If you are stuck, improve the systems named in your current phase before spending heavily on temporary gear.</div>
+  </div>
+</section>
+
+<section class="progressionPage hidePage" id="progressionPage">
+  <div class="progressionInner">
+    <div class="progressHero">
+      <div><div class="eyebrow">Character Routine</div><h2>Progression Checklist</h2><p>Track the repeatable tasks that are easy to leave on the table. Daily and Weekly progress can be reset independently; pet collection ranks remain permanent and are shared with the Pet Atlas.</p></div>
+      <div class="sectionJump"><button data-jump="dailySection">Daily</button><button data-jump="weeklySection">Weekly</button><button data-jump="eventsSection">Events</button><button data-jump="lifetimeSection">Lifetime</button></div>
+    </div>
+    <div id="progressionSections"></div>
+    <div class="progressFooterNote">Checklist state is stored in this browser and included in progress exports. Daily/Weekly reset buttons only clear their own checklist progress; they never reset pet ranks.</div>
+  </div>
+</section>
+<footer class="footer"><span id="footerCounts"></span><span>Map artwork/data attribution: <a href="https://github.com/aion2-interactive-map/aion2-interactive-map" target="_blank" rel="noopener">AION2 Interactive Map</a> (CC BY-NC 4.0). AION 2 © NCSOFT. Unofficial noncommercial tool.</span><span>Russian names: <a href="https://wikily.gg/ru/aion-2/pets" target="_blank" rel="noopener">Wikily</a></span></footer>
+</div>
+<dialog id="modal"><button class="close" id="modalClose">Close</button><h2 id="modalTitle">Progress</h2><div id="modalBody"></div></dialog>
+<input type="file" id="fileInput" accept=".json,application/json" class="hide">
+<script src="../data.js"></script>
+<script src="../progress.js"></script>
+<script src="app.js"></script>
+</body></html>
